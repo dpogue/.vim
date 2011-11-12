@@ -46,6 +46,10 @@ inoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
+if version >= 700
+  nnoremap gf :tabe <cfile><cr>
+endif
+
 nnoremap <leader><space> :noh<cr>
 nnoremap <leader>w <C-w>v<C-w>l
 
