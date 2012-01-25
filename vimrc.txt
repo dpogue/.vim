@@ -81,6 +81,12 @@ cab wQ wq
 cab WQ wq
 cab Q  q
 
+" Show special characters (Thanks Zrax!)
+hi NonText      term=bold cterm=bold ctermfg=6 gui=bold guifg=gray
+hi SpecialKey   term=bold cterm=bold ctermfg=0 guifg=gray
+set listchars=tab:»\ ,trail:·,extends:»,precedes:«
+set list
+
 set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
 set termencoding=utf-8,gbk
 if has ('multi_byte') && v:version > 601
