@@ -60,7 +60,7 @@ map <leader>n :NERDTreeToggle<CR>
 set lbr
 
 " Set current directory
-if has('autochdir')
+if version >= 703
   " Set colorcolumn here because it needs the same version as autochdir
   set colorcolumn=80
   set autochdir
