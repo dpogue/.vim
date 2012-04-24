@@ -58,10 +58,13 @@ map <leader>n :NERDTreeToggle<CR>
 
 " Wrap text instead of being on one line
 set lbr
-set colorcolumn=80
 
 " Set current directory
-set autochdir
+if has('autochdir')
+  " Set colorcolumn here because it needs the same version as autochdir
+  set colorcolumn=80
+  set autochdir
+endif
 
 " sane tab counts
 set tpm=20
@@ -96,6 +99,11 @@ if has ('multi_byte') && v:version > 601
 endif
 
 
+set laststatus=2
+set statusline+=%{rvm#statusline()}
+set statusline+=%{fugitive#statusline()}
+
+
 set bg=dark
 
 set ruler
@@ -104,7 +112,14 @@ colorscheme koehler
 
 let &guicursor = &guicursor . ",a:blinkon0"
 
-set ttyscroll=0
+set synmaxcol=512
+
+if has('gui_running')
+else
+    set ttyfast
+    set ttyscroll=3
+    set lazyredraw
+endif
 
 " configure tags - add additional tags here or comment out not-used ones
 set tags+=tags;/
