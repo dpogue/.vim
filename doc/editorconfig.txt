@@ -1,7 +1,7 @@
 *editorconfig.txt*
 
 File: editorconfig.txt
-Version: 0.2.3
+Version: 0.3.1
 Maintainer: EditorConfig Team <http://editorconfig.org>
 Description: EditorConfig vim plugin
 
@@ -156,6 +156,8 @@ file:
      if has_key(a:config, 'vim_filetype')
          let &filetype = a:config['vim_filetype']
      endif
+
+     return 0   " Return 0 to show no error happened
  endfunction
 
  call editorconfig#AddNewHook(function('FiletypeHook'))
