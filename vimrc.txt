@@ -34,6 +34,9 @@ set ic
 " Highlight search
 set hls
 
+" Incremental search
+set incsearch
+
 " Disable arrow keys in normal & insert modes - use hjkl!!!
 nnoremap <up> <nop>
 nnoremap <down> <nop>
