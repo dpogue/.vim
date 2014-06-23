@@ -117,11 +117,14 @@ let &guicursor = &guicursor . ",a:blinkon0"
 
 set synmaxcol=512
 
+set noeb vb t_vb=
+
 if has('gui_running')
 else
     set ttyfast
     set ttyscroll=3
     set lazyredraw
+    set vb t_vb=
 endif
 
 " configure tags - add additional tags here or comment out not-used ones
