@@ -162,6 +162,10 @@ function! s:InitializeExternalCommand() " {{{2
                     \ 'D:\Program Files\editorconfig\bin\editorconfig',
                     \ 'E:\Program Files\editorconfig\bin\editorconfig',
                     \ 'F:\Program Files\editorconfig\bin\editorconfig',
+                    \ 'C:\Program Files (x86)\editorconfig\bin\editorconfig',
+                    \ 'D:\Program Files (x86)\editorconfig\bin\editorconfig',
+                    \ 'E:\Program Files (x86)\editorconfig\bin\editorconfig',
+                    \ 'F:\Program Files (x86)\editorconfig\bin\editorconfig',
                     \ 'editorconfig.py']
     endif
 
@@ -426,7 +430,14 @@ function! s:SpawnExternalParser(cmd) " {{{2
     if !empty(l:cmd)
         let l:config = {}
 
+        " In Windows, 'shellslash' also changes the behavior of 'shellescape'.
+        " It makes 'shellescape' behave like in UNIX environment. So ':setl
+        " noshellslash' before evaluating 'shellescape' and restore the
+        " settings afterwards.
+        let l:old_shellslash = &l:shellslash
+        setlocal noshellslash
         let l:cmd = l:cmd . ' ' . shellescape(expand('%:p'))
+        let &l:shellslash = l:old_shellslash
         let l:parsing_result = split(system(l:cmd), '\n')
 
         " if editorconfig core's exit code is not zero, give out an error
@@ -435,6 +446,9 @@ function! s:SpawnExternalParser(cmd) " {{{2
             echohl ErrorMsg
             echo 'Failed to execute "' . l:cmd . '". Exit code: ' .
                         \ v:shell_error
+            echo ''
+            echo 'Message:'
+            echo l:parsing_result
             echohl None
             return
         endif
@@ -491,7 +505,7 @@ function! s:ApplyConfig(config) " {{{1
 
     endif
 
-    if has_key(a:config, "end_of_line")
+    if has_key(a:config, "end_of_line") && &l:modifiable
         if a:config["end_of_line"] == "lf"
             setl fileformat=unix
         elseif a:config["end_of_line"] == "crlf"
@@ -501,7 +515,7 @@ function! s:ApplyConfig(config) " {{{1
         endif
     endif
 
-    if has_key(a:config, "charset")
+    if has_key(a:config, "charset") && &l:modifiable
         if a:config["charset"] == "utf-8"
             setl fileencoding=utf-8
             setl nobomb
@@ -528,6 +542,25 @@ function! s:ApplyConfig(config) " {{{1
         endif
 
         augroup END " editorconfig_trim_trailing_whitespace group
+    endif
+
+    if has_key(a:config, "insert_final_newline")
+        if a:config["insert_final_newline"] == "false"
+            silent! SetNoEOL    " Use the PreserveNoEOL plugin to accomplish it
+        endif
+    endif
+
+    if has_key(a:config, 'max_line_length')
+        let l:max_line_length = str2nr(a:config['max_line_length'])
+
+        if l:max_line_length > 0
+            let &l:textwidth = l:max_line_length
+
+            " highlight the column
+            if exists('+colorcolumn')
+                let &l:colorcolumn = l:max_line_length
+            endif
+        endif
     endif
 
     call editorconfig#ApplyHooks(a:config)
