@@ -141,7 +141,7 @@ Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'less', 'scss'] }
 Plug 'groenewege/vim-less', { 'for': 'less' }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'pangloss/vim-javascript', { 'for': ['js', 'es6', 'json'] }
-Plug 'leafgarland/typescript-vim', { 'for': 'ts' }
+Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
 
 call plug#end()
 
