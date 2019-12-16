@@ -37,9 +37,6 @@ set hls
 " Incremental search
 set incsearch
 
-" Old Regex engine, but faster for Ruby syntax highlighting!
-" set regexpengine=1
-
 " Disable arrow keys in normal & insert modes - use hjkl!!!
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -125,7 +122,9 @@ if has('gui_running')
     set guifont=Roboto\ Mono:h11
     " set columns=79
     " autocmd GUIEnter * set columns=80
-else
+endif
+
+if !has('gui_running') && !has('nvim')
     set ttyfast
     set ttyscroll=3
     set lazyredraw
